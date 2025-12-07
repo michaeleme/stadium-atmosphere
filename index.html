@@ -214,8 +214,8 @@
       const steps = 8;
       const standHeight = 15;
       const standDepth  = 15;
-      const standZ = FIELD_HEIGHT / 2 - 8; 
-      const standX = FIELD_WIDTH / 2 - 8;   
+      const standZ = FIELD_HEIGHT / 2 + standDepth / 2;
+      const standX = FIELD_WIDTH / 2 + standDepth / 2;  
       const color = 0x666666;
 
       const standMat = new THREE.MeshLambertMaterial({ color });
