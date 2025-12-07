@@ -185,6 +185,48 @@
       s.position.set(0, LINE_Y, z);
       scene.add(s);
     }
+
+    function createNet(goalWidth, goalHeight, depth, zSide) {
+
+      
+  const netMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.3,
+    side: THREE.DoubleSide
+  });
+
+  // Back of net
+  const backNet = new THREE.PlaneGeometry(goalWidth, goalHeight);
+  const backMesh = new THREE.Mesh(backNet, netMaterial);
+  
+  // Side nets
+  const sideNet = new THREE.PlaneGeometry(depth, goalHeight);
+  const leftMesh = new THREE.Mesh(sideNet, netMaterial);
+  const rightMesh = new THREE.Mesh(sideNet, netMaterial);
+  
+  // Top net
+  const topNet = new THREE.PlaneGeometry(goalWidth, depth);
+  const topMesh = new THREE.Mesh(topNet, netMaterial);
+
+  const z = zSide * (halfHeight + 0.1);
+
+  // Position back net
+  backMesh.position.set(0, goalHeight / 2, z - zSide * depth);
+  
+  // Position side nets
+  leftMesh.position.set(-goalWidth / 2, goalHeight / 2, z - zSide * (depth / 2));
+  leftMesh.rotation.y = Math.PI / 2;
+  
+  rightMesh.position.set(goalWidth / 2, goalHeight / 2, z - zSide * (depth / 2));
+  rightMesh.rotation.y = Math.PI / 2;
+  
+  // Position top net
+  topMesh.position.set(0, goalHeight, z - zSide * (depth / 2));
+  topMesh.rotation.x = Math.PI / 2;
+
+  scene.add(backMesh, leftMesh, rightMesh, topMesh);
+}
     
 
     // ----- Goals -----
@@ -239,6 +281,8 @@
   });
 
   scene.add(leftPost, rightPost, crossbar, backLeft, backRight, backTop);
+  createNet(goalWidth, goalHeight, depth, zSide);
+}
 }
     addGoal(1);
     addGoal(-1);
