@@ -156,7 +156,7 @@
     const spotGeom = new THREE.SphereGeometry(0.3, 16, 16);
     const spotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const centerSpot = new THREE.Mesh(spotGeom, spotMat);
-    centerSpot.position.set(0, LINE_Y, 0);
+    centerSpot.position.set(0, 0.3, 0);  // Raised up so it sits on top
     scene.add(centerSpot);
 
     // Penalty & goal boxes
@@ -177,8 +177,7 @@
       s.position.set(0, LINE_Y, z);
       scene.add(s);
     }
-    addPenaltySpot(halfHeight - 11);
-    addPenaltySpot(-halfHeight + 11);
+    
 
     // ----- Goals -----
     function addGoal(zSide) {
