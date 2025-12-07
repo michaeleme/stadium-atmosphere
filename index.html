@@ -189,31 +189,57 @@
 
     // ----- Goals -----
     function addGoal(zSide) {
-      const goalWidth = 7.32;
-      const goalHeight = 2.44;
-      const depth = 2.5;
+  const goalWidth = 7.32;
+  const goalHeight = 2.44;
+  const depth = 2.5;
+  const postRadius = 0.12;  // Thinner, more realistic
 
-      const barMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const postGeom = new THREE.BoxGeometry(0.2, goalHeight, 0.2);
-      const crossGeom = new THREE.BoxGeometry(goalWidth, 0.2, 0.2);
-      const sideGeom = new THREE.BoxGeometry(0.2, goalHeight, depth);
+  // Metallic white material for posts
+  const postMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xffffff,
+    metalness: 0.3,
+    roughness: 0.4
+  });
 
-      const leftPost = new THREE.Mesh(postGeom, barMaterial);
-      const rightPost = new THREE.Mesh(postGeom, barMaterial);
-      const crossbar = new THREE.Mesh(crossGeom, barMaterial);
-      const leftSide = new THREE.Mesh(sideGeom, barMaterial);
-      const rightSide = new THREE.Mesh(sideGeom, barMaterial);
+  // Cylindrical posts (vertical)
+  const postGeom = new THREE.CylinderGeometry(postRadius, postRadius, goalHeight, 16);
+  const leftPost = new THREE.Mesh(postGeom, postMaterial);
+  const rightPost = new THREE.Mesh(postGeom, postMaterial);
 
-      const z = zSide * (halfHeight + 0.1);
+  // Crossbar (horizontal cylinder)
+  const crossbarGeom = new THREE.CylinderGeometry(postRadius, postRadius, goalWidth, 16);
+  const crossbar = new THREE.Mesh(crossbarGeom, postMaterial);
+  crossbar.rotation.z = Math.PI / 2;  // Rotate to horizontal
 
-      leftPost.position.set(-goalWidth / 2, goalHeight / 2, z);
-      rightPost.position.set( goalWidth / 2, goalHeight / 2, z);
-      crossbar.position.set(0, goalHeight, z);
-      leftSide.position.set(-goalWidth / 2, goalHeight / 2, z - zSide * depth / 2);
-      rightSide.position.set(goalWidth / 2, goalHeight / 2, z - zSide * depth / 2);
+  // Back posts (depth)
+  const backPostGeom = new THREE.CylinderGeometry(postRadius, postRadius, goalHeight, 16);
+  const backLeft = new THREE.Mesh(backPostGeom, postMaterial);
+  const backRight = new THREE.Mesh(backPostGeom, postMaterial);
 
-      scene.add(leftPost, rightPost, crossbar, leftSide, rightSide);
-    }
+  // Top back bar
+  const backTopGeom = new THREE.CylinderGeometry(postRadius, postRadius, goalWidth, 16);
+  const backTop = new THREE.Mesh(backTopGeom, postMaterial);
+  backTop.rotation.z = Math.PI / 2;
+
+  const z = zSide * (halfHeight + 0.1);
+
+  // Position everything
+  leftPost.position.set(-goalWidth / 2, goalHeight / 2, z);
+  rightPost.position.set(goalWidth / 2, goalHeight / 2, z);
+  crossbar.position.set(0, goalHeight, z);
+  
+  backLeft.position.set(-goalWidth / 2, goalHeight / 2, z - zSide * depth);
+  backRight.position.set(goalWidth / 2, goalHeight / 2, z - zSide * depth);
+  backTop.position.set(0, goalHeight, z - zSide * depth);
+
+  // Enable shadows
+  [leftPost, rightPost, crossbar, backLeft, backRight, backTop].forEach(mesh => {
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+  });
+
+  scene.add(leftPost, rightPost, crossbar, backLeft, backRight, backTop);
+}
     addGoal(1);
     addGoal(-1);
 
