@@ -2,20 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>3D Soccer Stadium</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
     #scene-container { width: 100%; height: 100%; }
   </style>
 </head>
 <body>
   <div id="scene-container"></div>
 
-  <!-- Use ES modules so the CDN imports work -->
+  <!-- Import map to resolve "three" -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+      }
+    }
+  </script>
+
   <script type="module">
-    import * as THREE from "https://unpkg.com/three@0.161.0/build/three.module.js";
-    import { OrbitControls } from "https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js";
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    console.log("Three.js loaded successfully!");
 
     const container = document.getElementById("scene-container");
 
@@ -50,9 +62,9 @@
     dirLight.shadow.mapSize.set(2048, 2048);
     scene.add(dirLight);
 
-    // ----- Field dimensions (roughly real size in meters) -----
-    const FIELD_WIDTH = 105;  // x direction
-    const FIELD_HEIGHT = 68;  // z direction
+    // ----- Field dimensions -----
+    const FIELD_WIDTH = 105;
+    const FIELD_HEIGHT = 68;
 
     // ----- Grass texture (striped) -----
     function makeGrassPattern() {
@@ -61,8 +73,8 @@
       canvas.width = canvas.height = size;
       const ctx = canvas.getContext("2d");
 
-      const color1 = "#4faa3c"; // darker
-      const color2 = "#66c24a"; // lighter
+      const color1 = "#4faa3c";
+      const color2 = "#66c24a";
 
       const stripeWidth = size / 8;
       for (let i = 0; i < 8; i++) {
@@ -85,7 +97,7 @@
 
     // ----- Field lines -----
     const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
-    const LINE_Y = 0.05; // slightly above grass to avoid z-fighting
+    const LINE_Y = 0.05;
 
     function addRectangle(width, height, centerZ = 0) {
       const hw = width / 2;
@@ -135,26 +147,22 @@
     addLine(-FIELD_WIDTH / 2, 0, FIELD_WIDTH / 2, 0);
 
     // Center circle + spot
-    addCircle(9.15); // 9.15m radius
+    addCircle(9.15);
     const spotGeom = new THREE.SphereGeometry(0.3, 16, 16);
     const spotMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const centerSpot = new THREE.Mesh(spotGeom, spotMat);
     centerSpot.position.set(0, LINE_Y, 0);
     scene.add(centerSpot);
 
-    // Penalty & goal boxes (approx real dimensions)
+    // Penalty & goal boxes
     const penaltyDepth = 16.5;
     const penaltyWidth = 40.32;
     const goalDepth = 5.5;
     const goalWidth = 18.32;
-
     const halfHeight = FIELD_HEIGHT / 2;
 
-    // Penalty areas
     addRectangle(penaltyWidth, penaltyDepth * 2,  halfHeight - penaltyDepth);
     addRectangle(penaltyWidth, penaltyDepth * 2, -halfHeight + penaltyDepth);
-
-    // Goal areas
     addRectangle(goalWidth, goalDepth * 2,  halfHeight - goalDepth);
     addRectangle(goalWidth, goalDepth * 2, -halfHeight + goalDepth);
 
@@ -167,7 +175,7 @@
     addPenaltySpot(halfHeight - 11);
     addPenaltySpot(-halfHeight + 11);
 
-    // ----- Simple goals -----
+    // ----- Goals -----
     function addGoal(zSide) {
       const goalWidth = 7.32;
       const goalHeight = 2.44;
@@ -194,10 +202,10 @@
 
       scene.add(leftPost, rightPost, crossbar, leftSide, rightSide);
     }
-    addGoal(1);   // far goal
-    addGoal(-1);  // near goal
+    addGoal(1);
+    addGoal(-1);
 
-    // ----- Stands (very simple stepped green blocks) -----
+    // ----- Stands -----
     function createStands() {
       const steps = 8;
       const stepHeight = 1.2;
@@ -206,7 +214,6 @@
 
       const standMat = new THREE.MeshLambertMaterial({ color });
 
-      // Along the long sides
       for (let i = 0; i < steps; i++) {
         const h = (i + 1) * stepHeight;
         const d = (i + 1) * stepDepth;
@@ -221,7 +228,6 @@
         scene.add(left, right);
       }
 
-      // Behind the goals (short sides)
       const halfWidth = FIELD_WIDTH / 2;
       for (let i = 0; i < steps; i++) {
         const h = (i + 1) * stepHeight;
@@ -239,16 +245,16 @@
     }
     createStands();
 
-    // ----- Resize handling -----
+    console.log("Scene setup complete!");
+
+    // ----- Resize -----
     window.addEventListener("resize", () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      camera.aspect = w / h;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // ----- Animation loop -----
+    // ----- Animation -----
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
