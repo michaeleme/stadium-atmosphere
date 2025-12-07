@@ -210,46 +210,46 @@
     addGoal(-1);
 
     // ----- Stands -----
-    function createStands() {
-      const steps = 8;
-      const standHeight = 15;
-      const standDepth  = 15;
-      const standZ = FIELD_HEIGHT / 2 + standDepth / 2;
-      const standX = FIELD_WIDTH / 2 + standDepth / 2;  
-      const color = 0x666666;
+    // ----- Stands -----
+function createStands() {
+  const steps = 8;
+  const stepHeight = 1.2;
+  const stepDepth = 2.5;
+  const color = 0x666666;
 
-      const standMat = new THREE.MeshLambertMaterial({ color });
+  const standMat = new THREE.MeshLambertMaterial({ color });
 
-      for (let i = 0; i < steps; i++) {
-        const h = (i + 1) * stepHeight;
-        const d = (i + 1) * stepDepth;
+  // Along the long sides
+  for (let i = 0; i < steps; i++) {
+    const h = (i + 1) * stepHeight;
+    const d = (i + 1) * stepDepth;
 
-        const geom = new THREE.BoxGeometry(FIELD_WIDTH + 50, stepHeight, stepDepth);
-        const left = new THREE.Mesh(geom, standMat);
-        const right = new THREE.Mesh(geom, standMat);
+    const geom = new THREE.BoxGeometry(FIELD_WIDTH + 50, stepHeight, stepDepth);
+    const left = new THREE.Mesh(geom, standMat);
+    const right = new THREE.Mesh(geom, standMat);
 
-        left.position.set(0, h / 2, -halfHeight - d);
-        right.position.set(0, h / 2, halfHeight + d);
+    left.position.set(0, h / 2, -FIELD_HEIGHT / 2 - d);
+    right.position.set(0, h / 2, FIELD_HEIGHT / 2 + d);
 
-        scene.add(left, right);
-      }
+    scene.add(left, right);
+  }
 
-      const halfWidth = FIELD_WIDTH / 2;
-      for (let i = 0; i < steps; i++) {
-        const h = (i + 1) * stepHeight;
-        const d = (i + 1) * stepDepth;
+  // Behind the goals (short sides)
+  for (let i = 0; i < steps; i++) {
+    const h = (i + 1) * stepHeight;
+    const d = (i + 1) * stepDepth;
 
-        const geom = new THREE.BoxGeometry(stepDepth, stepHeight, FIELD_HEIGHT + 50);
-        const near = new THREE.Mesh(geom, standMat);
-        const far = new THREE.Mesh(geom, standMat);
+    const geom = new THREE.BoxGeometry(stepDepth, stepHeight, FIELD_HEIGHT + 50);
+    const near = new THREE.Mesh(geom, standMat);
+    const far = new THREE.Mesh(geom, standMat);
 
-        near.position.set(-halfWidth - d, h / 2, 0);
-        far.position.set( halfWidth + d, h / 2, 0);
+    near.position.set(-FIELD_WIDTH / 2 - d, h / 2, 0);
+    far.position.set(FIELD_WIDTH / 2 + d, h / 2, 0);
 
-        scene.add(near, far);
-      }
-    }
-    createStands();
+    scene.add(near, far);
+  }
+}
+createStands();
 
     console.log("Scene setup complete!");
 
