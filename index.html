@@ -35,6 +35,8 @@
     const scene = new THREE.Scene();
     const dawnSkyColor = new THREE.Color(0xff8844);
     scene.background = dawnSkyColor;
+    const fogColor = new THREE.Color(0xffaa88);
+    scene.fog = new THREE.Fog(fogColor, 80, 200);
 
     const camera = new THREE.PerspectiveCamera(
       60,
@@ -56,6 +58,8 @@
     // ----- Lights -----
     const hemiLight = new THREE.HemisphereLight(0xffffee, 0x806040, 0.5);
     scene.add(hemiLight);
+
+    
 
     const sunLight = new THREE.DirectionalLight(0xfff2c0, 1.2);  // Warm golden color, brighter
     sunLight.position.set(-50, 25, 50);  // Low angle from the side (sunrise position)
