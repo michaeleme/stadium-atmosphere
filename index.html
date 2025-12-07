@@ -224,7 +224,7 @@
         const h = (i + 1) * stepHeight;
         const d = (i + 1) * stepDepth;
 
-        const geom = new THREE.BoxGeometry(FIELD_WIDTH + 20, stepHeight, stepDepth);
+        const geom = new THREE.BoxGeometry(FIELD_WIDTH + 50, stepHeight, stepDepth);
         const left = new THREE.Mesh(geom, standMat);
         const right = new THREE.Mesh(geom, standMat);
 
@@ -239,7 +239,7 @@
         const h = (i + 1) * stepHeight;
         const d = (i + 1) * stepDepth;
 
-        const geom = new THREE.BoxGeometry(stepDepth, stepHeight, FIELD_HEIGHT + 20);
+        const geom = new THREE.BoxGeometry(stepDepth, stepHeight, FIELD_HEIGHT + 50);
         const near = new THREE.Mesh(geom, standMat);
         const far = new THREE.Mesh(geom, standMat);
 
