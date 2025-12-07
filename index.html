@@ -212,10 +212,10 @@
     // ----- Stands -----
     function createStands() {
       const steps = 8;
-      const stepHeight = 1.2;
-      const stepDepth = 2.5;
-      const standZ = FIELD_HEIGHT / 2;  
-      const standX = FIELD_WIDTH / 2;
+      const standHeight = 15;
+      const standDepth  = 15;
+      const standZ = FIELD_HEIGHT / 2 - 8; 
+      const standX = FIELD_WIDTH / 2 - 8;   
       const color = 0x666666;
 
       const standMat = new THREE.MeshLambertMaterial({ color });
