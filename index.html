@@ -33,7 +33,8 @@
 
     // ----- Scene, camera, renderer -----
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x202533);
+    const dawnSkyColor = new THREE.Color(0xff8844);
+    scene.background = dawnSkyColor;
 
     const camera = new THREE.PerspectiveCamera(
       60,
