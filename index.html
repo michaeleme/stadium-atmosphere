@@ -53,7 +53,7 @@ camera.add(listener);
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-  audioLoader.load('https://actions.google.com/sounds/v1/ambiences/crowd_celebration.ogg', function(buffer) {
+  audioLoader.load('https://cdn.freesound.org/previews/521/521541_2376593-lq.mp3', function(buffer) {
   sound.setBuffer(buffer);
   sound.setLoop(true);  // Loop continuously
   sound.setVolume(0.5); // 50% volume
