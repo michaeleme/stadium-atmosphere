@@ -46,6 +46,36 @@
     );
     camera.position.set(0, 5, 0);
 
+    // ----- Web Audio Setup -----
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+const sound = new THREE.Audio(listener);
+const audioLoader = new THREE.AudioLoader();
+
+audioLoader.load('crowd.mp3', function(buffer) {
+  sound.setBuffer(buffer);
+  sound.setLoop(true);  // Loop continuously
+  sound.setVolume(0.5); // 50% volume
+  console.log('Crowd audio loaded!');
+});
+
+// Press spacebar to start/stop crowd noise
+let crowdPlaying = false;
+window.addEventListener('keydown', (e) => {
+  if (e.code === 'Space') {
+    if (!crowdPlaying) {
+      sound.play();
+      crowdPlaying = true;
+      console.log('Crowd noise started!');
+    } else {
+      sound.pause();
+      crowdPlaying = false;
+      console.log('Crowd noise paused!');
+    }
+  }
+});
+
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
