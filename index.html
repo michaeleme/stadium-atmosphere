@@ -319,6 +319,7 @@ window.addEventListener('keydown', (e) => {
 
     // ----- Stands -----
 function createStands() {
+  const SIDE_GAP = 6; 
   const steps = 8;
   const stepHeight = 1.2;
   const stepDepth = 2.5;
@@ -358,7 +359,7 @@ function createStands() {
   }
 }
 createStands();
-const SIDE_GAP = 6; 
+
 addTeamBenchOnTouchline(-1, -FIELD_HEIGHT * 0.25);
 addTeamBenchOnTouchline(-1,  FIELD_HEIGHT * 0.25);
 
