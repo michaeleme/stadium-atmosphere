@@ -419,9 +419,9 @@ function addTeamBenchOnTouchline(sideX, zPos) {
 
   bench.rotation.y = (sideX === 1) ? Math.PI / 2 : -Math.PI / 2;
 
-  
-  const margin = 0.35; 
-  const x = sideX * (FIELD_WIDTH / 2 + benchDepth / 2 + margin);
+
+ const inset = 0.6;  
+ const x = sideX * (FIELD_WIDTH / 2 - benchDepth / 2 - inset);
 
   bench.position.set(x, 0, zPos);
   scene.add(bench);
