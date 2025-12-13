@@ -317,7 +317,6 @@ window.addEventListener('keydown', (e) => {
     addGoal(-1);
 
     // ----- Stands -----
-    // ----- Stands -----
 function createStands() {
   const steps = 8;
   const stepHeight = 1.2;
@@ -358,23 +357,22 @@ function createStands() {
 }
 createStands();
 
-addTeamBench(-FIELD_WIDTH * 0.25,  1);
-addTeamBench( FIELD_WIDTH * 0.25,  1);
+addTeamBenchOnTouchline(-1, -FIELD_HEIGHT * 0.25);
+addTeamBenchOnTouchline(-1,  FIELD_HEIGHT * 0.25);
 
-addTeamBench(-FIELD_WIDTH * 0.25, -1);
-addTeamBench( FIELD_WIDTH * 0.25, -1);
+addTeamBenchOnTouchline( 1, -FIELD_HEIGHT * 0.25);
+addTeamBenchOnTouchline( 1,  FIELD_HEIGHT * 0.25);
 
 console.log("Scene setup complete!");
 
-    // ----- Team benches -----
-function addTeamBench(xPos, zSide) {
-
+   // ----- Team benches (touchline benches on the LONG sides) -----
+function addTeamBenchOnTouchline(sideX, zPos) {
+ 
 
   const bench = new THREE.Group();
 
-  
-  const benchLength = 10;     
-  const benchDepth  = 1.4;    
+  const benchLength = 10;   
+  const benchDepth  = 1.4;  
   const seatHeight  = 0.45;
   const backHeight  = 1.2;
   const roofHeight  = 1.8;
@@ -382,6 +380,7 @@ function addTeamBench(xPos, zSide) {
   const frameMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.2, roughness: 0.6 });
   const panelMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 0.0, roughness: 0.7 });
   const seatMat  = new THREE.MeshStandardMaterial({ color: 0x1f6feb, metalness: 0.0, roughness: 0.6 });
+
 
   
   const seatGeom = new THREE.BoxGeometry(benchLength, 0.15, benchDepth);
@@ -399,7 +398,6 @@ function addTeamBench(xPos, zSide) {
   back.receiveShadow = true;
   bench.add(back);
 
- 
   const roofGeom = new THREE.BoxGeometry(benchLength, 0.12, benchDepth + 0.4);
   const roof = new THREE.Mesh(roofGeom, panelMat);
   roof.position.set(0, roofHeight, 0);
@@ -407,7 +405,7 @@ function addTeamBench(xPos, zSide) {
   roof.receiveShadow = true;
   bench.add(roof);
 
-  
+
   const postGeom = new THREE.BoxGeometry(0.12, roofHeight - seatHeight, 0.12);
   const postXs = [-benchLength/2 + 0.6, -benchLength/2 + 1.6, benchLength/2 - 1.6, benchLength/2 - 0.6];
   for (const px of postXs) {
@@ -419,13 +417,13 @@ function addTeamBench(xPos, zSide) {
   }
 
 
-  const z =
-    zSide * (FIELD_HEIGHT / 2 + benchDepth / 2 + 0.35);
-  bench.position.set(xPos, 0, z);
+  bench.rotation.y = (sideX === 1) ? Math.PI / 2 : -Math.PI / 2;
 
+  
+  const margin = 0.35; 
+  const x = sideX * (FIELD_WIDTH / 2 + benchDepth / 2 + margin);
 
-  bench.rotation.y = (zSide === 1) ? Math.PI : 0;
-
+  bench.position.set(x, 0, zPos);
   scene.add(bench);
 }
 
