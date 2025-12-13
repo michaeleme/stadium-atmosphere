@@ -358,7 +358,77 @@ function createStands() {
 }
 createStands();
 
-    console.log("Scene setup complete!");
+addTeamBench(-FIELD_WIDTH * 0.25,  1);
+addTeamBench( FIELD_WIDTH * 0.25,  1);
+
+addTeamBench(-FIELD_WIDTH * 0.25, -1);
+addTeamBench( FIELD_WIDTH * 0.25, -1);
+
+console.log("Scene setup complete!");
+
+    // ----- Team benches -----
+function addTeamBench(xPos, zSide) {
+
+
+  const bench = new THREE.Group();
+
+  
+  const benchLength = 10;     
+  const benchDepth  = 1.4;    
+  const seatHeight  = 0.45;
+  const backHeight  = 1.2;
+  const roofHeight  = 1.8;
+
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.2, roughness: 0.6 });
+  const panelMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 0.0, roughness: 0.7 });
+  const seatMat  = new THREE.MeshStandardMaterial({ color: 0x1f6feb, metalness: 0.0, roughness: 0.6 });
+
+  
+  const seatGeom = new THREE.BoxGeometry(benchLength, 0.15, benchDepth);
+  const seat = new THREE.Mesh(seatGeom, seatMat);
+  seat.position.set(0, seatHeight, 0);
+  seat.castShadow = true;
+  seat.receiveShadow = true;
+  bench.add(seat);
+
+  
+  const backGeom = new THREE.BoxGeometry(benchLength, backHeight, 0.12);
+  const back = new THREE.Mesh(backGeom, panelMat);
+  back.position.set(0, seatHeight + backHeight / 2, -benchDepth / 2 + 0.06);
+  back.castShadow = true;
+  back.receiveShadow = true;
+  bench.add(back);
+
+ 
+  const roofGeom = new THREE.BoxGeometry(benchLength, 0.12, benchDepth + 0.4);
+  const roof = new THREE.Mesh(roofGeom, panelMat);
+  roof.position.set(0, roofHeight, 0);
+  roof.castShadow = true;
+  roof.receiveShadow = true;
+  bench.add(roof);
+
+  
+  const postGeom = new THREE.BoxGeometry(0.12, roofHeight - seatHeight, 0.12);
+  const postXs = [-benchLength/2 + 0.6, -benchLength/2 + 1.6, benchLength/2 - 1.6, benchLength/2 - 0.6];
+  for (const px of postXs) {
+    const post = new THREE.Mesh(postGeom, frameMat);
+    post.position.set(px, (roofHeight + seatHeight) / 2, -benchDepth / 2 + 0.06);
+    post.castShadow = true;
+    post.receiveShadow = true;
+    bench.add(post);
+  }
+
+
+  const z =
+    zSide * (FIELD_HEIGHT / 2 + benchDepth / 2 + 0.35);
+  bench.position.set(xPos, 0, z);
+
+
+  bench.rotation.y = (zSide === 1) ? Math.PI : 0;
+
+  scene.add(bench);
+}
+
 
     // ----- Resize -----
     window.addEventListener("resize", () => {
