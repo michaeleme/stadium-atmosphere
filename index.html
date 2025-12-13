@@ -319,7 +319,7 @@ window.addEventListener('keydown', (e) => {
 
     // ----- Stands -----
 function createStands() {
-  const SIDE_GAP = 6; 
+  const SIDE_GAP = 6;
   const steps = 8;
   const stepHeight = 1.2;
   const stepDepth = 2.5;
@@ -353,7 +353,7 @@ function createStands() {
     const far = new THREE.Mesh(geom, standMat);
 
     near.position.set(-FIELD_WIDTH / 2 - d, h / 2, 0);
-    far.position.set(FIELD_WIDTH / 2 + d, h / 2, 0);
+    far.position.set( FIELD_WIDTH / 2 + d, h / 2, 0);
 
     scene.add(near, far);
   }
