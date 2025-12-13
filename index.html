@@ -124,10 +124,11 @@ window.addEventListener('keydown', (e) => {
     grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
     grassTexture.repeat.set(4, 4);
 
-    const fieldGeom = new THREE.PlaneGeometry(
-      FIELD_WIDTH + 2 * TOUCHLINE_RUNOFF,
-      FIELD_HEIGHT
-    );
+    cconst fieldGeom = new THREE.PlaneGeometry(
+    FIELD_WIDTH + 2 * TOUCHLINE_RUNOFF,
+    FIELD_HEIGHT
+  );
+
 
     const fieldMat = new THREE.MeshLambertMaterial({ map: grassTexture });
     const field = new THREE.Mesh(fieldGeom, fieldMat);
@@ -357,8 +358,9 @@ function createStands() {
     const near = new THREE.Mesh(geom, standMat);
     const far = new THREE.Mesh(geom, standMat);
 
-    near.position.set(-FIELD_WIDTH / 2 - d, h / 2, 0);
-    far.position.set( FIELD_WIDTH / 2 + d, h / 2, 0);
+    near.position.set(-FIELD_WIDTH / 2 - TOUCHLINE_RUNOFF - d, h / 2, 0);
+    far.position.set( FIELD_WIDTH / 2 + TOUCHLINE_RUNOFF + d, h / 2, 0);
+
 
     scene.add(near, far);
   }
