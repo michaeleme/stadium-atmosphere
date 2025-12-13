@@ -100,6 +100,7 @@ window.addEventListener('keydown', (e) => {
     // ----- Field dimensions -----
     const FIELD_WIDTH = 105;  
     const FIELD_HEIGHT = 68;  
+    const SIDE_RUNOFF = 6;
 
     // ----- Grass texture (striped) -----
     function makeGrassPattern() {
@@ -123,7 +124,7 @@ window.addEventListener('keydown', (e) => {
     grassTexture.wrapS = grassTexture.wrapT = THREE.RepeatWrapping;
     grassTexture.repeat.set(4, 4);
 
-    const fieldGeom = new THREE.PlaneGeometry(FIELD_WIDTH, FIELD_HEIGHT);
+    const fieldGeom = new THREE.PlaneGeometry(FIELD_WIDTH, FIELD_HEIGHT + 2 * SIDE_RUNOFF);
     const fieldMat = new THREE.MeshLambertMaterial({ map: grassTexture });
     const field = new THREE.Mesh(fieldGeom, fieldMat);
     field.rotation.x = -Math.PI / 2;
