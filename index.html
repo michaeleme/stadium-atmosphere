@@ -125,8 +125,8 @@ window.addEventListener('keydown', (e) => {
     grassTexture.repeat.set(4, 4);
 
     const fieldGeom = new THREE.PlaneGeometry(
-    FIELD_WIDTH + 2 * TOUCHLINE_RUNOFF,
-    FIELD_HEIGHT
+    FIELD_HEIGHT,                       
+    FIELD_WIDTH + 2 * TOUCHLINE_RUNOFF  
   );
 
 
@@ -325,7 +325,7 @@ window.addEventListener('keydown', (e) => {
 
     // ----- Stands -----
 function createStands() {
-  const SIDE_GAP = 6;
+  const SIDE_GAP = 2;
   const steps = 8;
   const stepHeight = 1.2;
   const stepDepth = 2.5;
