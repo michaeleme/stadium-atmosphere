@@ -204,10 +204,11 @@ window.addEventListener('keydown', (e) => {
     const goalWidth = 18.32;
     const halfHeight = FIELD_HEIGHT / 2;
 
-    addRectangle(penaltyWidth, penaltyDepth * 2,  halfHeight - penaltyDepth);
-    addRectangle(penaltyWidth, penaltyDepth * 2, -halfHeight + penaltyDepth);
-    addRectangle(goalWidth, goalDepth * 2,  halfHeight - goalDepth);
-    addRectangle(goalWidth, goalDepth * 2, -halfHeight + goalDepth);
+  addRectangle(penaltyWidth, penaltyDepth,  halfHeight - penaltyDepth / 2);
+  addRectangle(penaltyWidth, penaltyDepth, -halfHeight + penaltyDepth / 2);
+
+  addRectangle(goalWidth, goalDepth,  halfHeight - goalDepth / 2);
+  addRectangle(goalWidth, goalDepth, -halfHeight + goalDepth / 2);
 
     // Penalty spots
     function addPenaltySpot(z) {
