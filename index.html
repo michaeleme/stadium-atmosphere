@@ -86,16 +86,23 @@ window.addEventListener('keydown', (e) => {
     controls.enableDamping = true;
 
     // ----- Lights -----
-    const hemiLight = new THREE.HemisphereLight(0xffffee, 0x806040, 0.5);
+    const hemiLight = new THREE.HemisphereLight(0xffeedd, 0x997755, 0.6);
     scene.add(hemiLight);
 
-    
+    const ambient = new THREE.AmbientLight(0xffffff, 0.2); // Very subtle fill
+    scene.add(ambient);
 
     const sunLight = new THREE.DirectionalLight(0xfff2c0, 1.2);  // Warm golden color, brighter
     sunLight.position.set(-50, 25, 50);  // Low angle from the side (sunrise position)
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.set(2048, 2048);
     scene.add(sunLight);
+
+    const sunGeom = new THREE.SphereGeometry(8, 32, 32);
+    const sunMat = new THREE.MeshBasicMaterial({ color: 0xffdd88 });
+    const sun = new THREE.Mesh(sunGeom, sunMat);
+    sun.position.set(-50, 25, 50); 
+    scene.add(sun);
 
     // ----- Field dimensions -----
     const FIELD_WIDTH = 105;  
