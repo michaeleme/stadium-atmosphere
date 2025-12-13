@@ -335,8 +335,9 @@ function createStands() {
     const left = new THREE.Mesh(geom, standMat);
     const right = new THREE.Mesh(geom, standMat);
 
-    left.position.set(0, h / 2, -FIELD_HEIGHT / 2 - d);
-    right.position.set(0, h / 2, FIELD_HEIGHT / 2 + d);
+  left.position.set(0, h / 2, -FIELD_HEIGHT / 2 - SIDE_GAP - d);
+  right.position.set(0, h / 2,  FIELD_HEIGHT / 2 + SIDE_GAP + d);
+
 
     scene.add(left, right);
   }
@@ -357,7 +358,7 @@ function createStands() {
   }
 }
 createStands();
-
+const SIDE_GAP = 6; 
 addTeamBenchOnTouchline(-1, -FIELD_HEIGHT * 0.25);
 addTeamBenchOnTouchline(-1,  FIELD_HEIGHT * 0.25);
 
